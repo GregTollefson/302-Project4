@@ -48,11 +48,9 @@ public:
     // ---------------------------------------------------------
     ArrayMaxHeap(int capacity)
     {
-        // TODO: Implement.
-        //   1. Allocate a dynamic array of size capacity using new T[capacity]
-        //      and assign it to items_.
-        //   2. Set itemCount_ to 0.
-        //   3. Set maxCapacity_ to capacity.
+         items_ = new T[capacity];
+         itemCount_ = 0;
+         maxCapacity_ = capacity;
     }
 
     // ---------------------------------------------------------
@@ -61,8 +59,7 @@ public:
     // ---------------------------------------------------------
     ~ArrayMaxHeap()
     {
-        // TODO: Implement.
-        //   Free the items_ array using delete[].
+        delete[] items_;        
     }
 
     // ---------------------------------------------------------
@@ -79,8 +76,7 @@ public:
     // ---------------------------------------------------------
     bool isEmpty() const override
     {
-        // TODO: Implement.
-        return true;
+        return itemCount_ == 0;
     }
 
     // ---------------------------------------------------------
@@ -88,8 +84,7 @@ public:
     // ---------------------------------------------------------
     int getNumberOfNodes() const override
     {
-        // TODO: Implement.
-        return 0;
+        return itemCount_;
     }
 
     // ---------------------------------------------------------
@@ -98,9 +93,13 @@ public:
     // ---------------------------------------------------------
     int getHeight() const override
     {
-        // TODO: Implement.
-        return 0;
+        if (itemCount_ == 0)
+            return 0;
+
+        //log2 returns a double, floor rounds down, stat_cast<int> converts float to int 
+        return static_cast<int>(std::floor(std::log2(itemCount_))) + 1;
     }
+        
 
     // ---------------------------------------------------------
     // peekTop
@@ -109,12 +108,13 @@ public:
     // ---------------------------------------------------------
     T peekTop() const override
     {
-        // TODO: Implement.
-        //   If empty, throw EmptyHeapException("peekTop() called on empty heap");
-        //   Otherwise, return items_[0].
-        //
-        //   Tip: implement this alongside add() so you can test as you go.
-        throw EmptyHeapException("peekTop() called on empty heap");
+        if(isEmpty())
+        {
+            throw EmptyHeapException("peekTop() called on empty heap");
+        }
+
+        return items_[0];
+
     }
 
     // ---------------------------------------------------------
@@ -137,7 +137,33 @@ public:
         //   Note: save itemCount_ to a variable before the loop —
         //   you need it as the starting index, and itemCount_ should
         //   not change until step 4.
-        return false;
+        if (itemCount_ >= maxCapacity_)
+        {
+            return false;
+        }
+        
+        int newIndex = itemCount_;
+        items_[newIndex] = newData;
+
+        // Trickle up
+        while(newIndex > 0)
+        {
+            int parentIndex = (newIndex - 1)/2;
+
+            // If parent >= child, stop
+            if (!(items_[parentIndex] < items_[newIndex]))
+            {
+                break;
+            }
+
+            // Swap parent and child
+            std::swap(items_[parentIndex], items_[newIndex]);
+            newIndex = parentIndex;
+
+        }
+
+        itemCount_++;
+        return true;
     }
 
     // ---------------------------------------------------------

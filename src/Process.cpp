@@ -47,8 +47,7 @@ int Process::getPriority() const
 // ---------------------------------------------------------
 bool Process::operator<(const Process& rhs) const
 {
-    // TODO: Implement.
-    return false;
+    return priority_ < rhs.priority_;
 }
 
 // ---------------------------------------------------------
@@ -56,8 +55,7 @@ bool Process::operator<(const Process& rhs) const
 // ---------------------------------------------------------
 bool Process::operator==(const Process& rhs) const
 {
-    // TODO: Implement.
-    return false;
+    return priority_ == rhs.priority_;
 }
 
 // ---------------------------------------------------------
@@ -65,7 +63,8 @@ bool Process::operator==(const Process& rhs) const
 // ---------------------------------------------------------
 std::ostream& operator<<(std::ostream& os, const Process& p)
 {
-    // TODO: Implement.
-    //   Example output: [Process] id=1 name=kernel_init priority=9
+    os << "[Process] id=" << p.id_
+       << " name=" << p.name_
+       << " priority=" << p.priority_;
     return os;
 }
