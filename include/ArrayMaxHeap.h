@@ -39,6 +39,7 @@ protected:
         //   Call the standalone trickleDown() function (from heapSort.h)
         //   on the items_ array, starting at index, over itemCount_ elements.
         //   This is one line — do not rewrite the trickle-down algorithm here.
+        trickleDown(items_, index, itemCount_);
     }
 
 public:
@@ -179,7 +180,23 @@ public:
         //   3. Decrement itemCount_.
         //   4. Call heapRebuild(0) to restore the heap property.
         //   5. Return true.
-        return false;
+
+        if (isEmpty())
+        {
+            return false;
+        }
+
+        items_[0] = items_[itemCount_ - 1];
+        itemCount_--;
+
+        // avoids calling heapRebuild() when heap just became empty
+        // after removing the last item 
+        if (!isEmpty())  
+        {
+            heapRebuild(0);
+        }
+
+        return true;
     }
 
     // ---------------------------------------------------------
@@ -192,6 +209,12 @@ public:
         //      to erase stale data (best practice — don't leave old values
         //      sitting in memory after a logical delete).
         //   2. Reset the item count to 0.
+        for (int i = 0; i < itemCount_; i++)
+        {
+            items_[i] = T(); //assign a default-constructed object T to items[i];
+        }
+
+        itemCount_ = 0;
     }
 };
 

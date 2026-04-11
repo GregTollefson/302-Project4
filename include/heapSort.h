@@ -14,6 +14,8 @@
 #ifndef HEAP_SORT_H
 #define HEAP_SORT_H
 
+#include <utility>  //needed for std::swap
+
 // -----------------------------------------------------------------
 // trickleDown
 //
@@ -39,6 +41,38 @@ void trickleDown(T arr[], int index, int size)
     // 4. If arr[index] < largerChild, swap them and recurse (or loop)
     //    on the child's position.
     // 5. Otherwise, the heap property holds — stop.
+    while(true)
+    {
+        int leftChild = 2 * index + 1;
+        int rightChild = 2 * index + 2; 
+
+        // Case for no children
+        if (leftChild >= size)
+        {
+            break;
+        }
+
+        //Assume left child is larger to start
+        int largerChild = leftChild;
+
+        //Use right child if it's larger 
+        if(rightChild < size && arr[largerChild] < arr[rightChild])
+        {
+            largerChild = rightChild;
+        }
+
+        //swap if parent is smaller than the larger child
+        if (arr[index] < arr[largerChild])
+        {
+            std::swap(arr[index], arr[largerChild]);
+            index = largerChild;
+        }
+        else
+        {
+            break;
+        }
+
+    }
 }
 
 // -----------------------------------------------------------------
