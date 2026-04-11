@@ -36,8 +36,7 @@ public:
     // ---------------------------------------------------------
     bool isEmpty() const override
     {
-        // TODO: Forward to heap_.
-        return true;
+        return heap_.isEmpty();
     }
 
     // ---------------------------------------------------------
@@ -45,8 +44,7 @@ public:
     // ---------------------------------------------------------
     bool add(const T& newEntry) override
     {
-        // TODO: Forward to heap_.
-        return false;
+        return heap_.add(newEntry);
     }
 
     // ---------------------------------------------------------
@@ -54,8 +52,7 @@ public:
     // ---------------------------------------------------------
     bool remove() override
     {
-        // TODO: Forward to heap_.
-        return false;
+        return heap_.remove();
     }
 
     // ---------------------------------------------------------
@@ -68,7 +65,16 @@ public:
         // TODO: Call heap_.peekTop() inside a try/catch.
         //   Catch EmptyHeapException and re-throw with:
         //   "peek() called on empty priority queue"
-        throw EmptyHeapException("peek() called on empty priority queue");
+        try
+        {
+            {
+                return heap_.peekTop();
+            }
+        }
+        catch(const EmptyHeapException&)
+        {
+            throw EmptyHeapException("peek() called on empty priority queue");
+        }
     }
 
     // ---------------------------------------------------------
@@ -76,8 +82,7 @@ public:
     // ---------------------------------------------------------
     int getSize() const
     {
-        // TODO: Forward to heap_.
-        return 0;
+        return heap_.getNumberOfNodes();
     }
 
 }; // end PriorityQueue

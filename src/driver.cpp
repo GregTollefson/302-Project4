@@ -49,6 +49,24 @@ void printStep(const string& label)
 
 int main()
 {
+
+    // Some test code to check ArrayMaxHeap is more or less working. 
+    std::cout << "=== Phase 2 Test: ArrayMaxHeap ===\n";
+
+    ArrayMaxHeap<Process> heap(10);
+
+    heap.add(Process("disk_sync", 1, 3));
+    heap.add(Process("kernel_init", 2, 9));
+    heap.add(Process("user_shell", 3, 5));
+
+    std::cout << std::boolalpha;
+    std::cout << "isEmpty(): " << heap.isEmpty() << '\n';
+    std::cout << "getNumberOfNodes(): " << heap.getNumberOfNodes() << '\n';
+    std::cout << "getHeight(): " << heap.getHeight() << '\n';
+    std::cout << "peekTop(): " << heap.peekTop() << '\n';
+
+    std::cout << "====================================\n\n";
+    
     // ========================================================
     // SECTION A — Process
     // ========================================================
