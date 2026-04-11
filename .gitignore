@@ -1,0 +1,21 @@
+# Build artifacts
+build/
+*.o
+*.out
+
+# VSCode
+.vscode/
+
+# JetBrains
+.idea/
+
+# OS junk
+.DS_Store
+Thumbs.db
+
+# Not needed markdowns
+docs/coding_standards.md 
+docs/project_04.md  
+docs/project_04_rubric.md  
+
+
