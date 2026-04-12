@@ -13,6 +13,7 @@
 //      grading depends on them.
 
 #include "Process.h"
+#include "NetworkPacket.h"
 
 // TODO: Add #include lines for your two additional item types.
 // Example:
@@ -246,35 +247,128 @@ std::cout << "================================\n\n";
     // steps B1–B7 mirror A1–A7, and B8 mirrors A8.
     // Create items appropriate to this type's domain.
 
-    printSection("SECTION B: [TypeB] Priority Queue");
+   printSection("SECTION B: Network Packet Priority Queue");
 
     const int QUEUE_B_CAPACITY = 10;
 
-    // TODO: Construct PriorityQueue<TypeB> queueB(QUEUE_B_CAPACITY);
+    PriorityQueue<NetworkPacket> queueB(QUEUE_B_CAPACITY);
 
     printStep("B1. Initial State");
-    // TODO: Print isEmpty() and getSize()
+    cout << "isEmpty(): " << (queueB.isEmpty() ? "true" : "false") << endl;
+    cout << "getSize(): " << queueB.getSize() << endl;
 
+    // --------------------------------------------------------
+    // B2. Add 5 items with distinct priority values
+    // --------------------------------------------------------
     printStep("B2. Adding 5 Items");
-    // TODO: Create and add 5 items, print each
 
+    NetworkPacket np1("video_stream", 1, 9);
+    queueB.add(np1);
+    cout << "Added: " << np1 << endl;
+
+    NetworkPacket np2("voice_call", 2, 7);
+    queueB.add(np2);
+    cout << "Added: " << np2 << endl;
+
+    NetworkPacket np3("http_request", 3, 3);
+    queueB.add(np3);
+    cout << "Added: " << np3 << endl;
+
+    NetworkPacket np4("email", 4, 2);
+    queueB.add(np4);
+    cout << "Added: " << np4 << endl;
+
+    NetworkPacket np5("file_download", 5, 1);
+    queueB.add(np5);
+    cout << "Added: " << np5 << endl;
+
+    cout << "getSize(): " << queueB.getSize() << endl;
+
+    // --------------------------------------------------------
+    // B3. Peek — confirm highest priority is at the top
+    // --------------------------------------------------------
     printStep("B3. Peek — Highest Priority Item");
-    // TODO: Peek and print
+    cout << "peek(): " << queueB.peek() << endl;
 
-    printStep("B4. Remove 2 Items");
-    // TODO: Peek/remove twice, print each
+    // --------------------------------------------------------
+    // B4. Remove 2 items — confirm they emerge in priority order
+    // --------------------------------------------------------
+    printStep("B4. Remove 2 Items (should be highest-priority first)");
+    cout << "Removing: " << queueB.peek() << endl;
+    queueB.remove();
+    cout << "Removing: " << queueB.peek() << endl;
+    queueB.remove();
 
+    cout << "getSize(): " << queueB.getSize() << endl;
+
+    // --------------------------------------------------------
+    // B5. Add 3 more items — at least one with higher priority
+    // --------------------------------------------------------
     printStep("B5. Adding 3 More Items (including one higher-priority)");
-    // TODO: Add 3 more items, print each
 
+    NetworkPacket np6("video_stream_hd", 6, 10);
+    queueB.add(np6);
+    cout << "Added: " << np6 << endl;
+
+    NetworkPacket np7("security_patch", 7, 6);
+    queueB.add(np7);
+    cout << "Added: " << np7 << endl;
+
+    NetworkPacket np8("debug_logs", 8, 4);
+    queueB.add(np8);
+    cout << "Added: " << np8 << endl;
+
+    // --------------------------------------------------------
+    // B6. Peek — confirm new highest priority is now at top
+    // --------------------------------------------------------
     printStep("B6. Peek After New Additions");
-    // TODO: Peek and print
+    cout << "peek(): " << queueB.peek() << endl;
 
+    // --------------------------------------------------------
+    // B7. Remove all remaining items
+    // --------------------------------------------------------
     printStep("B7. Drain Queue — Confirm Priority Order Throughout");
-    // TODO: Remove all, print each, confirm isEmpty
+    while (!queueB.isEmpty())
+    {
+        cout << "Removing: " << queueB.peek() << endl;
+        queueB.remove();
+    }
+    cout << "isEmpty(): " << (queueB.isEmpty() ? "true" : "false") << endl;
+    cout << "getSize(): " << queueB.getSize() << endl;
 
+    // --------------------------------------------------------
+    // B8. HeapSort demo — plain array of 6 Process items
+    // --------------------------------------------------------
     printStep("B8. HeapSort Demo");
-    // TODO: Array of 6 items, print before, sort, print after
+
+    // TODO: Declare a plain array of 6 Process items with unsorted priorities.
+    //
+    // Example:
+        NetworkPacket networkSortArr[6] = {
+        NetworkPacket("ps_a", 10, 4),
+        NetworkPacket("ps_b", 11, 7),
+        NetworkPacket("ps_c", 12, 1),
+        NetworkPacket("ps_d", 13, 9),
+        NetworkPacket("ps_e", 14, 3),
+        NetworkPacket("ps_f", 15, 6)
+    };
+
+    // TODO: Print the array BEFORE sorting.
+    cout << "Before heapSort:" << endl;
+    for (int i = 0; i < 6; i++) 
+    { 
+        cout << "  " << networkSortArr[i] << endl; 
+    }
+
+    // TODO: Call heapSort on the array.
+    heapSort(networkSortArr, 6);
+
+    // TODO: Print the array AFTER sorting.
+    cout << "After heapSort (ascending priority order):" << endl;
+    for (int i = 0; i < 6; i++) 
+    { 
+        cout << "  " << networkSortArr[i] << endl; 
+    }
 
 
     // ========================================================
