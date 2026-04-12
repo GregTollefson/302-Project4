@@ -69,6 +69,8 @@ int main()
 
 std::cout << "isEmpty(): " << std::boolalpha << heap.isEmpty() << '\n';
 std::cout << "================================\n\n";
+
+
     // ========================================================
     // SECTION A — Process
     // ========================================================
@@ -106,6 +108,28 @@ std::cout << "================================\n\n";
     //
     //   ... (3 more)
 
+    printStep("A2. Adding 5 Items");
+
+    Process p1("kernel_init", 1, 9);
+    queueA.add(p1);
+    cout << "Added: " << p1 << endl;
+
+    Process p2("user_shell", 2, 5);
+    queueA.add(p2);
+    cout << "Added: " << p2 << endl;
+
+    Process p3("disk_sync", 3, 3);
+    queueA.add(p3);
+    cout << "Added: " << p3 << endl;
+
+    Process p4("net_handler", 4, 7);
+    queueA.add(p4);
+    cout << "Added: " << p4 << endl;
+
+    Process p5("garbage_collect", 5, 1);
+    queueA.add(p5);
+    cout << "Added: " << p5 << endl;
+
     cout << "getSize(): " << queueA.getSize() << endl;
 
 
@@ -115,7 +139,7 @@ std::cout << "================================\n\n";
     printStep("A3. Peek — Highest Priority Item");
 
     // TODO: Call queueA.peek() and display the result.
-    //   cout << "peek(): " << queueA.peek() << endl;
+    cout << "peek(): " << queueA.peek() << endl;
 
 
     // --------------------------------------------------------
@@ -124,10 +148,10 @@ std::cout << "================================\n\n";
     printStep("A4. Remove 2 Items (should be highest-priority first)");
 
     // TODO: Peek and remove twice, printing what comes out.
-    //   cout << "Removing: " << queueA.peek() << endl;
-    //   queueA.remove();
-    //   cout << "Removing: " << queueA.peek() << endl;
-    //   queueA.remove();
+    cout << "Removing: " << queueA.peek() << endl;
+    queueA.remove();
+    cout << "Removing: " << queueA.peek() << endl;
+    queueA.remove();
 
     cout << "getSize(): " << queueA.getSize() << endl;
 
@@ -142,6 +166,18 @@ std::cout << "================================\n\n";
     //       priority value than the item currently at the top of the queue.
     //       Print each item as you add it.
 
+    Process p6("audio_daemon", 6, 4);
+    queueA.add(p6);
+    cout << "Added: " << p6 << endl;
+
+    Process p7("security_patch", 7, 10);
+    queueA.add(p7);
+    cout << "Added: " << p7 << endl;
+
+    Process p8("log_rotate", 8, 6);
+    queueA.add(p8);
+    cout << "Added: " << p8 << endl;
+
 
     // --------------------------------------------------------
     // A6. Peek — confirm new highest priority is now at top
@@ -149,7 +185,7 @@ std::cout << "================================\n\n";
     printStep("A6. Peek After New Additions");
 
     // TODO: Call queueA.peek() and confirm the new top.
-    //   cout << "peek(): " << queueA.peek() << endl;
+    cout << "peek(): " << queueA.peek() << endl;
 
 
     // --------------------------------------------------------
@@ -158,13 +194,13 @@ std::cout << "================================\n\n";
     printStep("A7. Drain Queue — Confirm Priority Order Throughout");
 
     // TODO: Remove all remaining items, printing each one.
-    //   while (!queueA.isEmpty())
-    //   {
-    //       cout << "Removing: " << queueA.peek() << endl;
-    //       queueA.remove();
-    //   }
-    //   cout << "isEmpty(): " << (queueA.isEmpty() ? "true" : "false") << endl;
-    //   cout << "getSize(): " << queueA.getSize() << endl;
+    while (!queueA.isEmpty())
+    {
+        cout << "Removing: " << queueA.peek() << endl;
+        queueA.remove();
+    }
+    cout << "isEmpty(): " << (queueA.isEmpty() ? "true" : "false") << endl;
+    cout << "getSize(): " << queueA.getSize() << endl;
 
 
     // --------------------------------------------------------
@@ -175,25 +211,31 @@ std::cout << "================================\n\n";
     // TODO: Declare a plain array of 6 Process items with unsorted priorities.
     //
     // Example:
-    //   Process sortArr[6] = {
-    //       Process("ps_a", 10, 4),
-    //       Process("ps_b", 11, 7),
-    //       Process("ps_c", 12, 1),
-    //       Process("ps_d", 13, 9),
-    //       Process("ps_e", 14, 3),
-    //       Process("ps_f", 15, 6)
-    //   };
+    Process sortArr[6] = {
+        Process("ps_a", 10, 4),
+        Process("ps_b", 11, 7),
+        Process("ps_c", 12, 1),
+        Process("ps_d", 13, 9),
+        Process("ps_e", 14, 3),
+        Process("ps_f", 15, 6)
+    };
 
     // TODO: Print the array BEFORE sorting.
     cout << "Before heapSort:" << endl;
-    // for (int i = 0; i < 6; i++) { cout << "  " << sortArr[i] << endl; }
+    for (int i = 0; i < 6; i++) 
+    { 
+        cout << "  " << sortArr[i] << endl; 
+    }
 
     // TODO: Call heapSort on the array.
-    // heapSort(sortArr, 6);
+    heapSort(sortArr, 6);
 
     // TODO: Print the array AFTER sorting.
     cout << "After heapSort (ascending priority order):" << endl;
-    // for (int i = 0; i < 6; i++) { cout << "  " << sortArr[i] << endl; }
+    for (int i = 0; i < 6; i++) 
+    { 
+        cout << "  " << sortArr[i] << endl; 
+    }
 
 
     // ========================================================

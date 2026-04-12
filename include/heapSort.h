@@ -87,13 +87,18 @@ void trickleDown(T arr[], int index, int size)
 template<class T>
 void heapSort(T arr[], int size)
 {
-    // TODO: Phase 1 — Build a max-heap.
-    //   Call trickleDown for each non-leaf node, starting from the
-    //   last parent (size/2 - 1) down to index 0.
+    // Phase 1: Build a max-heap
+    for (int i = size / 2 - 1; i >= 0; i--)
+    {
+        trickleDown(arr, i, size);
+    }
 
-    // TODO: Phase 2 — Sort.
-    //   Repeatedly swap arr[0] (the max) with the last unsorted element,
-    //   shrink the heap size by 1, and call trickleDown(arr, 0, newSize).
+    // Phase 2: Sort
+    for (int last = size - 1; last > 0; last--)
+    {
+        std::swap(arr[0], arr[last]);
+        trickleDown(arr, 0, last);
+    }
 }
 
 #endif
