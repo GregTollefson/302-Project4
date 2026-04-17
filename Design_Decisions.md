@@ -1,151 +1,61 @@
-# Design Decisions
-
-## Item Type Choices
-
-## Priority Scales
-
 ## operator< Rationale
+
+This means:
+
+- If `a < b`, then **b has higher priority**
+- This allows the heap to function as a **max-heap**
+
+The heap uses this comparison to:
+
+- Move higher-priority items upward
+- Maintain the heap invariant
+
+---
 
 ## trickleDown Design
 
+The `trickleDown()` function is implemented as a reusable free function.
+
+### Design decision
+
+- Do not duplicate logic inside `ArrayMaxHeap`
+- Use a single implementation shared by:
+  - `ArrayMaxHeap::heapRebuild()`
+  - `heapSort()`
+
+### Algorithm
+
+- Compare a node with its children
+- Select the larger child
+- Swap if needed
+- Continue downward until heap property is restored
+
+### Benefits
+
+- Code reuse
+- Maintainability
+- Consistency across heap operations
+
+---
+
 ## Edge Cases
 
-```plantuml
-@startuml
-title CS302 Project 4 - Heap and Priority Queue Architecture
+Several edge cases were handled:
 
-skinparam classAttributeIconSize 0
-skinparam monochrome true
+- **Removing from an empty heap:**
+  - `remove()` returns `false`
 
-' =========================
-' Interfaces
-' =========================
-interface "Comparable<T>" as ComparableT {
-  +operator<(rhs : T) const : bool
-  +operator==(rhs : T) const : bool
-}
+- **Peeking an empty heap:**
+  - `peek()` throws `EmptyHeapException`
 
-interface "HeapInterface<T>" as HeapInterfaceT {
-  +isEmpty() const : bool
-  +getNumberOfNodes() const : int
-  +getHeight() const : int
-  +peekTop() const : T
-  +add(newData : const T&) : bool
-  +remove() : bool
-  +clear() : void
-}
+- **Heap of size 1:**
+  - `remove()` correctly reduces size to 0
 
-interface "PriorityQueueInterface<T>" as PriorityQueueInterfaceT {
-  +isEmpty() const : bool
-  +add(newEntry : const T&) : bool
-  +remove() : bool
-  +peek() const : T
-}
+- **Capacity limits:**
+  - `add()` returns `false` if heap is full
 
-' =========================
-' Item types
-' =========================
-class Process {
-  -name_ : string
-  -id_ : int
-  -priority_ : int
-  --
-  +Process()
-  +Process(name : const string&, id : int, priority : int)
-  +getName() const : string
-  +getId() const : int
-  +getPriority() const : int
-  +operator<(rhs : const Process&) const : bool
-  +operator==(rhs : const Process&) const : bool
-  +operator<<(os : ostream&, p : const Process&) : ostream&
-}
+- **Clearing the heap:**
+  - `clear()` resets `itemCount_` and overwrites elements
 
+These ensure robustness and prevent undefined behavior.
 
-ComparableT <|.. Process
-ComparableT <|.. TypeB
-ComparableT <|.. TypeC
-
-' =========================
-' Core heap class
-' =========================
-class "ArrayMaxHeap<T>" as ArrayMaxHeapT {
-  -items_ : T*
-  -itemCount_ : int
-  -maxCapacity_ : int
-  --
-  #heapRebuild(index : int) : void
-  --
-  +ArrayMaxHeap(capacity : int)
-  +~ArrayMaxHeap()
-  +isEmpty() const : bool
-  +getNumberOfNodes() const : int
-  +getHeight() const : int
-  +peekTop() const : T
-  +add(newData : const T&) : bool
-  +remove() : bool
-  +clear() : void
-}
-
-HeapInterfaceT <|.. ArrayMaxHeapT
-
-' =========================
-' Priority queue wrapper
-' =========================
-class "PriorityQueue<T>" as PriorityQueueT {
-  -heap_ : ArrayMaxHeap<T>
-  --
-  +PriorityQueue(capacity : int)
-  +isEmpty() const : bool
-  +add(newEntry : const T&) : bool
-  +remove() : bool
-  +peek() const : T
-  +getSize() const : int
-}
-
-PriorityQueueInterfaceT <|.. PriorityQueueT
-PriorityQueueT *-- ArrayMaxHeapT : has-a
-
-' =========================
-' Free functions
-' =========================
-class "heapSort.h" as HeapSortModule <<utility>> {
-  +trickleDown(arr : T[], index : int, size : int) : void
-  +heapSort(arr : T[], size : int) : void
-}
-
-ArrayMaxHeapT ..> HeapSortModule : heapRebuild() delegates to
-HeapSortModule ..> ComparableT : uses operator<
-
-' =========================
-' Example instantiations
-' =========================
-class "PriorityQueue<Process>" as PQProcess
-class "ArrayMaxHeap<Process>" as HeapProcess
-
-PriorityQueueT <|-- PQProcess
-ArrayMaxHeapT <|-- HeapProcess
-PQProcess *-- HeapProcess
-
-note right of ArrayMaxHeapT
-Maintains max-heap invariant:
-parent >= children
-
-add():
-insert at end, then trickle up
-
-remove():
-move last item to root,
-decrement count,
-then trickle down
-end note
-
-note right of HeapSortModule
-Shared algorithm design:
-trickleDown() is written once
-and reused by both
-ArrayMaxHeap and heapSort()
-end note
-
-@enduml
-
-```

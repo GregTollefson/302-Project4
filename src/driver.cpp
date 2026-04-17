@@ -14,6 +14,7 @@
 
 #include "Process.h"
 #include "NetworkPacket.h"
+#include "PrintJob.h"
 
 // TODO: Add #include lines for your two additional item types.
 // Example:
@@ -240,14 +241,14 @@ std::cout << "================================\n\n";
 
 
     // ========================================================
-    // SECTION B — [TODO: Replace with your first chosen type]
+    // SECTION B — Network Packet 
     // ========================================================
     // Choose from: NetworkPacket, DiskRequest, Interrupt, PrintJob
     // Follow the exact same pattern as Section A above:
     // steps B1–B7 mirror A1–A7, and B8 mirrors A8.
     // Create items appropriate to this type's domain.
 
-   printSection("SECTION B: Network Packet Priority Queue");
+    printSection("SECTION B: Network Packet Priority Queue");
 
     const int QUEUE_B_CAPACITY = 10;
 
@@ -372,42 +373,136 @@ std::cout << "================================\n\n";
 
 
     // ========================================================
-    // SECTION C — [TODO: Replace with your second chosen type]
+    // SECTION C — Print Job 
     // ========================================================
     // Choose a different type than Section B: NetworkPacket, DiskRequest, Interrupt, PrintJob
     // Follow the exact same pattern as Section A above:
     // steps C1–C7 mirror A1–A7, and C8 mirrors A8.
     // Create items appropriate to this type's domain.
 
-    printSection("SECTION C: [TypeC] Priority Queue");
+    printSection("SECTION C: Print Job Priority Queue");
 
     const int QUEUE_C_CAPACITY = 10;
 
-    // TODO: Construct PriorityQueue<TypeC> queueC(QUEUE_C_CAPACITY);
+    PriorityQueue<PrintJob> queueC(QUEUE_C_CAPACITY);
 
     printStep("C1. Initial State");
-    // TODO
+    cout << "isEmpty(): " << (queueB.isEmpty() ? "true" : "false") << endl;
+    cout << "getSize(): " << queueB.getSize() << endl;
 
+    // --------------------------------------------------------
+    // C2. Add 5 items with distinct priority values
+    // --------------------------------------------------------
     printStep("C2. Adding 5 Items");
-    // TODO
 
+    PrintJob pj1("final_report", 1, 8);
+    queueC.add(pj1);
+    cout << "Added: " << pj1 << endl;
+
+    PrintJob pj2("meeting_handouts", 2, 7);
+    queueC.add(pj2);
+    cout << "Added: " << pj2 << endl;
+
+    PrintJob pj3("presentation_slides", 3, 6);
+    queueC.add(pj3);
+    cout << "Added: " << pj3 << endl;
+
+    PrintJob pj4("class_notes", 4, 4);
+    queueC.add(pj4);
+    cout << "Added: " << pj4 << endl;
+
+    PrintJob pj5("bulk_archive", 5, 1);
+    queueC.add(pj5);
+    cout << "Added: " << pj5 << endl;
+
+    cout << "getSize(): " << queueC.getSize() << endl;
+
+    // --------------------------------------------------------
+    // C3. Peek — confirm highest priority is at the top
+    // --------------------------------------------------------
     printStep("C3. Peek — Highest Priority Item");
-    // TODO
+    cout << "peek(): " << queueC.peek() << endl;
 
-    printStep("C4. Remove 2 Items");
-    // TODO
+    // --------------------------------------------------------
+    // C4. Remove 2 items — confirm they emerge in priority order
+    // --------------------------------------------------------
+    printStep("C4. Remove 2 Items (should be highest-priority first)");
+    cout << "Removing: " << queueC.peek() << endl;
+    queueC.remove();
+    cout << "Removing: " << queueC.peek() << endl;
+    queueC.remove();
 
+    cout << "getSize(): " << queueC.getSize() << endl;
+
+    // --------------------------------------------------------
+    // C5. Add 3 more items — at least one with higher priority
+    // --------------------------------------------------------
     printStep("C5. Adding 3 More Items (including one higher-priority)");
-    // TODO
 
+    PrintJob pj6("draft_copy", 6, 3);
+    queueC.add(pj6);
+    cout << "Added: " << pj6 << endl;
+
+    PrintJob pj7("personal_print", 7, 2);
+    queueC.add(pj7);
+    cout << "Added: " << pj7 << endl;
+
+    PrintJob pj8("admin_emergency", 8, 10);
+    queueC.add(pj8);
+    cout << "Added: " << pj8 << endl;
+
+    // --------------------------------------------------------
+    // C6. Peek — confirm new highest priority is now at top
+    // --------------------------------------------------------
     printStep("C6. Peek After New Additions");
-    // TODO
+    cout << "peek(): " << queueC.peek() << endl;
 
+    // --------------------------------------------------------
+    // C7. Remove all remaining items
+    // --------------------------------------------------------
     printStep("C7. Drain Queue — Confirm Priority Order Throughout");
-    // TODO
+    while (!queueC.isEmpty())
+    {
+        cout << "Removing: " << queueC.peek() << endl;
+        queueC.remove();
+    }
+    cout << "isEmpty(): " << (queueC.isEmpty() ? "true" : "false") << endl;
+    cout << "getSize(): " << queueC.getSize() << endl;
 
+    // --------------------------------------------------------
+    // C8. HeapSort demo — plain array of 6 Process items
+    // --------------------------------------------------------
     printStep("C8. HeapSort Demo");
-    // TODO
+
+    // TODO: Declare a plain array of 6 Process items with unsorted priorities.
+    //
+    // Example:
+        PrintJob printerSortArr[6] = {
+        PrintJob("ps_a", 10, 4),
+        PrintJob("ps_b", 11, 7),
+        PrintJob("ps_c", 12, 1),
+        PrintJob("ps_d", 13, 9),
+        PrintJob("ps_e", 14, 3),
+        PrintJob("ps_f", 15, 6)
+    };
+
+    // TODO: Print the array BEFORE sorting.
+    cout << "Before heapSort:" << endl;
+    for (int i = 0; i < 6; i++) 
+    { 
+        cout << "  " << printerSortArr[i] << endl; 
+    }
+
+    // TODO: Call heapSort on the array.
+    heapSort(printerSortArr, 6);
+
+    // TODO: Print the array AFTER sorting.
+    cout << "After heapSort (ascending priority order):" << endl;
+    for (int i = 0; i < 6; i++) 
+    { 
+        cout << "  " << printerSortArr[i] << endl; 
+    }
+    
 
 
     // ========================================================

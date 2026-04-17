@@ -71,7 +71,8 @@ TARGET = project4
 # ------------------------------------------------------------
 SRCS = $(SRC_DIR)/driver.cpp \
        $(SRC_DIR)/Process.cpp \
-	   $(SRC_DIR)/NetworkPacket.cpp
+	   $(SRC_DIR)/NetworkPacket.cpp \
+	   $(SRC_DIR)/PrintJob.cpp
 # 
 # TODO: Add your two chosen item types.
 #

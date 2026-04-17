@@ -1,7 +1,7 @@
-#include "NetworkPacket.h"
+#include "PrintJob.h"
 
 // Process.cpp
-// CS 302 – Project 4: Network Packet Priority Scheduler
+// CS 302 – Project 4: Print Job Priority Scheduler
 //
 // TODO: Implement all Process methods below.
 //       This file is provided as a pattern — your two additional
@@ -12,14 +12,14 @@
 // ---------------------------------------------------------
 // Default constructor
 // ---------------------------------------------------------
-NetworkPacket::NetworkPacket() : name_(""), id_(0), priority_(0) 
+PrintJob::PrintJob() : name_(""), id_(0), priority_(0) 
 {
 }
 
 // ---------------------------------------------------------
 // Parameterized constructor
 // ---------------------------------------------------------
-NetworkPacket::NetworkPacket(const std::string& name, int id, int priority)
+PrintJob::PrintJob(const std::string& name, int id, int priority)
     : name_(name), id_(id), priority_(priority)
 {
 }
@@ -27,17 +27,17 @@ NetworkPacket::NetworkPacket(const std::string& name, int id, int priority)
 // ---------------------------------------------------------
 // Accessors
 // ---------------------------------------------------------
-std::string NetworkPacket::getName() const
+std::string PrintJob::getName() const
 {
     return name_;
 }
 
-int NetworkPacket::getId() const
+int PrintJob::getId() const
 {
     return id_;
 }
 
-int NetworkPacket::getPriority() const
+int PrintJob::getPriority() const
 {
     return priority_;
 }
@@ -47,7 +47,7 @@ int NetworkPacket::getPriority() const
 //   If this->priority_ < rhs.priority_, then rhs is more urgent.
 //   The heap uses this to keep higher-priority items near the root.
 // ---------------------------------------------------------
-bool NetworkPacket::operator<(const NetworkPacket& rhs) const
+bool PrintJob::operator<(const PrintJob& rhs) const
 {
     return priority_ < rhs.priority_;
 }
@@ -55,7 +55,7 @@ bool NetworkPacket::operator<(const NetworkPacket& rhs) const
 // ---------------------------------------------------------
 // operator==  — compares by priority_.
 // ---------------------------------------------------------
-bool NetworkPacket::operator==(const NetworkPacket& rhs) const
+bool PrintJob::operator==(const PrintJob& rhs) const
 {
     return priority_ == rhs.priority_;
 }
@@ -63,9 +63,9 @@ bool NetworkPacket::operator==(const NetworkPacket& rhs) const
 // ---------------------------------------------------------
 // operator<<  — prints the process in a readable format.
 // ---------------------------------------------------------
-std::ostream& operator<<(std::ostream& os, const NetworkPacket& p)
+std::ostream& operator<<(std::ostream& os, const PrintJob& p)
 {
-    os << "[NetworkPacket] id=" << p.id_
+    os << "[PrintJob] id=" << p.id_
        << " name=" << p.name_
        << " priority=" << p.priority_;
     return os;
